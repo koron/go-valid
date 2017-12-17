@@ -68,7 +68,7 @@ func (fv *Float64Value) Max(max float64) *Float64Value {
 	return fv
 }
 
-func (fv *Float64Value) OneOf(values []float64) *Float64Value {
+func (fv *Float64Value) OneOf(values ...float64) *Float64Value {
 	fv.v.add(func() error {
 		n := fv.get()
 		for _, v := range values {

@@ -23,6 +23,7 @@ func Bool(p *bool, val bool) *BoolValue {
 func (b *BoolValue) Set(s string) error {
 	v, err := strconv.ParseBool(s)
 	*b.pv = v
+	b.f = true
 	return err
 }
 

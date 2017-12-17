@@ -69,7 +69,7 @@ func (i *Int64Value) Max(max int64) *Int64Value {
 	return i
 }
 
-func (i *Int64Value) OneOf(values []int64) *Int64Value {
+func (i *Int64Value) OneOf(values ...int64) *Int64Value {
 	i.v.add(func() error {
 		n := i.get()
 		for _, v := range values {

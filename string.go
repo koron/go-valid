@@ -62,7 +62,7 @@ func (s *StringValue) Max(max int) *StringValue {
 	return s
 }
 
-func (s *StringValue) OneOf(values []string) *StringValue {
+func (s *StringValue) OneOf(values ...string) *StringValue {
 	s.v.add(func() error {
 		t := s.get()
 		for _, v := range values {

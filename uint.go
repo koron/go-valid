@@ -69,7 +69,7 @@ func (i *UintValue) Max(max uint) *UintValue {
 	return i
 }
 
-func (i *UintValue) OneOf(values []uint) *UintValue {
+func (i *UintValue) OneOf(values ...uint) *UintValue {
 	i.v.add(func() error {
 		n := i.get()
 		for _, v := range values {

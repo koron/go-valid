@@ -38,7 +38,7 @@ func (dv *DurationValue) get() time.Duration {
 func (dv *DurationValue) Get() interface{} { return dv.get() }
 
 func (dv *DurationValue) String() string {
-	return dv.String()
+	return dv.pv.String()
 }
 
 func (dv *DurationValue) Validate(f *flag.Flag) error {
@@ -70,7 +70,7 @@ func (dv *DurationValue) Max(max time.Duration) *DurationValue {
 	return dv
 }
 
-func (dv *DurationValue) OneOf(values []time.Duration) *DurationValue {
+func (dv *DurationValue) OneOf(values ...time.Duration) *DurationValue {
 	dv.v.add(func() error {
 		n := dv.get()
 		for _, v := range values {
