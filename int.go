@@ -13,6 +13,7 @@ type IntValue struct {
 	pv *int
 }
 
+// Int creates a validatable int variable for flag.
 func Int(p *int, val int) *IntValue {
 	if p == nil {
 		p = new(int)
@@ -21,6 +22,7 @@ func Int(p *int, val int) *IntValue {
 	return &IntValue{pv: p}
 }
 
+// Set sets a value by string representation.
 func (i *IntValue) Set(s string) error {
 	v, err := strconv.ParseInt(s, 0, strconv.IntSize)
 	*i.pv = int(v)
@@ -35,19 +37,24 @@ func (i *IntValue) get() int {
 	return *i.pv
 }
 
+// Get returns value of the flag.
 func (i *IntValue) Get() interface{} { return i.get() }
 
+// String returns string representation for value of the flag.
 func (i *IntValue) String() string {
 	return strconv.FormatInt(int64(i.get()), 10)
 }
 
+// Validate validates value of the flag.
 func (i *IntValue) Validate(f *flag.Flag) error { return i.v.Validate(f) }
 
+// MustSet declares "set at least once" constraint.
 func (i *IntValue) MustSet() *IntValue {
 	i.mustSet()
 	return i
 }
 
+// Min declares lower limit constraint.
 func (i *IntValue) Min(min int) *IntValue {
 	i.v.add(func() error {
 		if n := i.get(); n < min {
@@ -58,6 +65,7 @@ func (i *IntValue) Min(min int) *IntValue {
 	return i
 }
 
+// Max declares uppper limit constraint.
 func (i *IntValue) Max(max int) *IntValue {
 	i.v.add(func() error {
 		if n := i.get(); n > max {
@@ -68,6 +76,7 @@ func (i *IntValue) Max(max int) *IntValue {
 	return i
 }
 
+// OneOf declares "one of" constraint.
 func (i *IntValue) OneOf(values ...int) *IntValue {
 	i.v.add(func() error {
 		n := i.get()

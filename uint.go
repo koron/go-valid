@@ -13,6 +13,7 @@ type UintValue struct {
 	pv *uint
 }
 
+// Uint creates a validatable uint variable for flag.
 func Uint(p *uint, val uint) *UintValue {
 	if p == nil {
 		p = new(uint)
@@ -22,6 +23,7 @@ func Uint(p *uint, val uint) *UintValue {
 	return i
 }
 
+// Set sets a value by string representation.
 func (i *UintValue) Set(s string) error {
 	v, err := strconv.ParseInt(s, 0, 64)
 	*i.pv = uint(v)
@@ -36,19 +38,24 @@ func (i *UintValue) get() uint {
 	return *i.pv
 }
 
+// Get returns value of the flag.
 func (i *UintValue) Get() interface{} { return i.get() }
 
+// String returns string representation for value of the flag.
 func (i *UintValue) String() string {
 	return strconv.FormatUint(uint64(i.get()), 10)
 }
 
+// Validate validates value of the flag.
 func (i *UintValue) Validate(f *flag.Flag) error { return i.v.Validate(f) }
 
+// MustSet declares "set at least once" constraint.
 func (i *UintValue) MustSet() *UintValue {
 	i.mustSet()
 	return i
 }
 
+// Min declares lower limit constraint.
 func (i *UintValue) Min(min uint) *UintValue {
 	i.v.add(func() error {
 		if n := i.get(); n < min {
@@ -59,6 +66,7 @@ func (i *UintValue) Min(min uint) *UintValue {
 	return i
 }
 
+// Max declares uppper limit constraint.
 func (i *UintValue) Max(max uint) *UintValue {
 	i.v.add(func() error {
 		if n := i.get(); n > max {
@@ -69,6 +77,7 @@ func (i *UintValue) Max(max uint) *UintValue {
 	return i
 }
 
+// OneOf declares "one of" constraint.
 func (i *UintValue) OneOf(values ...uint) *UintValue {
 	i.v.add(func() error {
 		n := i.get()

@@ -7,6 +7,7 @@ import (
 	"reflect"
 )
 
+// Validatable defines an interface for flag variables.
 type Validatable interface {
 	flag.Getter
 	Validate(*flag.Flag) error

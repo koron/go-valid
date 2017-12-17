@@ -13,6 +13,7 @@ type DurationValue struct {
 	pv *time.Duration
 }
 
+// Duration creates a validatable time.Duration variable for flag.
 func Duration(p *time.Duration, val time.Duration) *DurationValue {
 	if p == nil {
 		p = new(time.Duration)
@@ -21,6 +22,7 @@ func Duration(p *time.Duration, val time.Duration) *DurationValue {
 	return &DurationValue{pv: p}
 }
 
+// Set sets a value by string representation.
 func (dv *DurationValue) Set(s string) error {
 	v, err := time.ParseDuration(s)
 	*dv.pv = v
@@ -35,21 +37,26 @@ func (dv *DurationValue) get() time.Duration {
 	return *dv.pv
 }
 
+// Get returns value of the flag.
 func (dv *DurationValue) Get() interface{} { return dv.get() }
 
+// String returns string representation for value of the flag.
 func (dv *DurationValue) String() string {
 	return dv.pv.String()
 }
 
+// Validate validates value of the flag.
 func (dv *DurationValue) Validate(f *flag.Flag) error {
 	return dv.v.Validate(f)
 }
 
+// MustSet declares "set at least once" constraint.
 func (dv *DurationValue) MustSet() *DurationValue {
 	dv.mustSet()
 	return dv
 }
 
+// Min declares lower limit constraint.
 func (dv *DurationValue) Min(min time.Duration) *DurationValue {
 	dv.v.add(func() error {
 		if n := dv.get(); n < min {
@@ -60,6 +67,7 @@ func (dv *DurationValue) Min(min time.Duration) *DurationValue {
 	return dv
 }
 
+// Max declares uppper limit constraint.
 func (dv *DurationValue) Max(max time.Duration) *DurationValue {
 	dv.v.add(func() error {
 		if n := dv.get(); n > max {
@@ -70,6 +78,7 @@ func (dv *DurationValue) Max(max time.Duration) *DurationValue {
 	return dv
 }
 
+// OneOf declares "one of" constraint.
 func (dv *DurationValue) OneOf(values ...time.Duration) *DurationValue {
 	dv.v.add(func() error {
 		n := dv.get()

@@ -13,6 +13,7 @@ type Float64Value struct {
 	pv *float64
 }
 
+// Float64 creates a validatable float64 variable for flag.
 func Float64(p *float64, val float64) *Float64Value {
 	if p == nil {
 		p = new(float64)
@@ -21,6 +22,7 @@ func Float64(p *float64, val float64) *Float64Value {
 	return &Float64Value{pv: p}
 }
 
+// Set sets a value by string representation.
 func (fv *Float64Value) Set(s string) error {
 	v, err := strconv.ParseFloat(s, 64)
 	*fv.pv = v
@@ -35,19 +37,24 @@ func (fv *Float64Value) get() float64 {
 	return *fv.pv
 }
 
+// Get returns value of the flag.
 func (fv *Float64Value) Get() interface{} { return fv.get() }
 
+// String returns string representation for value of the flag.
 func (fv *Float64Value) String() string {
 	return strconv.FormatFloat(*fv.pv, 'g', -1, 64)
 }
 
+// Validate validates value of the flag.
 func (fv *Float64Value) Validate(f *flag.Flag) error { return fv.v.Validate(f) }
 
+// MustSet declares "set at least once" constraint.
 func (fv *Float64Value) MustSet() *Float64Value {
 	fv.mustSet()
 	return fv
 }
 
+// Min declares lower limit constraint.
 func (fv *Float64Value) Min(min float64) *Float64Value {
 	fv.v.add(func() error {
 		if n := fv.get(); n < min {
@@ -58,6 +65,7 @@ func (fv *Float64Value) Min(min float64) *Float64Value {
 	return fv
 }
 
+// Max declares uppper limit constraint.
 func (fv *Float64Value) Max(max float64) *Float64Value {
 	fv.v.add(func() error {
 		if n := fv.get(); n > max {
@@ -68,6 +76,7 @@ func (fv *Float64Value) Max(max float64) *Float64Value {
 	return fv
 }
 
+// OneOf declares "one of" constraint.
 func (fv *Float64Value) OneOf(values ...float64) *Float64Value {
 	fv.v.add(func() error {
 		n := fv.get()

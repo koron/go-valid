@@ -5,11 +5,14 @@ import (
 	"fmt"
 )
 
+// StringValue provides string Value for flag pakage which validatable and
+// constrainable.
 type StringValue struct {
 	value
 	pv *string
 }
 
+// String creates a validatable string variable for flag.
 func String(p *string, val string) *StringValue {
 	if p == nil {
 		p = new(string)
@@ -18,6 +21,7 @@ func String(p *string, val string) *StringValue {
 	return &StringValue{pv: p}
 }
 
+// Set sets a value by string representation.
 func (s *StringValue) Set(v string) error {
 	*s.pv = v
 	s.f = true
@@ -31,17 +35,22 @@ func (s *StringValue) get() string {
 	return *s.pv
 }
 
+// Get returns value of the flag.
 func (s *StringValue) Get() interface{} { return s.get() }
 
+// String returns string representation for value of the flag.
 func (s *StringValue) String() string { return s.get() }
 
+// Validate validates value of the flag.
 func (s *StringValue) Validate(f *flag.Flag) error { return s.v.Validate(f) }
 
+// MustSet declares "set at least once" constraint.
 func (s *StringValue) MustSet() *StringValue {
 	s.mustSet()
 	return s
 }
 
+// Min declares length lower limit constraint.
 func (s *StringValue) Min(min int) *StringValue {
 	s.v.add(func() error {
 		if l := len(s.get()); l < min {
@@ -52,6 +61,7 @@ func (s *StringValue) Min(min int) *StringValue {
 	return s
 }
 
+// Max declares length uppper limit constraint.
 func (s *StringValue) Max(max int) *StringValue {
 	s.v.add(func() error {
 		if l := len(s.get()); l > max {
@@ -62,6 +72,7 @@ func (s *StringValue) Max(max int) *StringValue {
 	return s
 }
 
+// OneOf declares "one of" constraint.
 func (s *StringValue) OneOf(values ...string) *StringValue {
 	s.v.add(func() error {
 		t := s.get()
