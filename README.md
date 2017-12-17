@@ -1,5 +1,8 @@
 # validate flag constraints
 
+[![GoDoc](https://godoc.org/github.com/koron/go-valid?status.svg)](https://godoc.org/github.com/koron/go-valid)
+[![CircleCI](https://circleci.com/gh/koron/go-valid.svg?style=svg)](https://circleci.com/gh/koron/go-valid)
+
 Package "valid" provides constraints validatable values for "flag" package.
 
 ```go
