@@ -44,21 +44,21 @@ This value have methods which declare some constraints like `MustSet()`,
 `Min()` or so. For example "int" value which is between 1 and 5 with default 1:
 
 ```go
-var user int
-uv := valid.IntValue(&user, 1).Min(1).Max(5)
+var mode int
+mv := valid.IntValue(&mode, 1).Min(1).Max(5)
 ```
 
 Another example, "int" value which must be set:
 
 ```go
-var mode int
-mv := valid.IntValue(&mode, 0).MustSet()
+var user int
+uv := valid.IntValue(&user, 0).MustSet()
 ```
 
 Then you should combine those values with the "flag" package.
 
 ```go
-flag.Var(uv, "user", "user ID (mandatory)")
 flag.Var(mv, "mode", "between 1 and 5")
+flag.Var(uv, "user", "user ID (mandatory)")
 flag.Parse()
 ```
