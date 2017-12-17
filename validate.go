@@ -3,19 +3,13 @@ package valid
 import (
 	"flag"
 	"fmt"
+	"os"
+	"reflect"
 )
 
 type Validatable interface {
 	flag.Getter
 	Validate(*flag.Flag) error
-}
-
-type ValidationErrors struct {
-	Errors []error
-}
-
-func (err *ValidationErrors) Error() string {
-	return fmt.Sprintf("validation errors: [%+v]", err.Errors)
 }
 
 // Validate validates all flags in FlagSet.  It will returns ValidationErrors if met some errors.
@@ -38,6 +32,27 @@ func Validate(fs *flag.FlagSet) error {
 	return &ValidationErrors{Errors: errs}
 }
 
+// Parse parses flag definitions from the argument list and validates
+// constraint.
+func Parse(fs *flag.FlagSet, args []string) error {
+	err := fs.Parse(args)
+	if err != nil {
+		return err
+	}
+	err = Validate(fs)
+	if err != nil {
+		switch errorHandling(fs) {
+		case flag.ContinueOnError:
+			return err
+		case flag.ExitOnError:
+			os.Exit(2)
+		case flag.PanicOnError:
+			panic(err)
+		}
+	}
+	return nil
+}
+
 type validator func() error
 
 type validators []validator
@@ -54,4 +69,14 @@ func (vs validators) Validate(f *flag.Flag) error {
 		}
 	}
 	return nil
+}
+
+func errorHandling(fs *flag.FlagSet) flag.ErrorHandling {
+	v := reflect.ValueOf(fs).Elem().FieldByName("errorHandling")
+	switch v.Type().Kind() {
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		return flag.ErrorHandling(v.Int())
+	default:
+		return 0
+	}
 }

@@ -82,4 +82,4 @@ func (i *Uint64Value) OneOf(values []uint64) *Uint64Value {
 	return i
 }
 
-var _ flag.Getter = &Uint64Value{}
+var _ Validatable = &Uint64Value{}

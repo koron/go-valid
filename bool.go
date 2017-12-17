@@ -46,4 +46,4 @@ func (b *BoolValue) MustSet() *BoolValue {
 	return b
 }
 
-var _ flag.Getter = &BoolValue{}
+var _ Validatable = &BoolValue{}

@@ -75,4 +75,4 @@ func (s *StringValue) OneOf(values []string) *StringValue {
 	return s
 }
 
-var _ flag.Getter = &StringValue{}
+var _ Validatable = &StringValue{}

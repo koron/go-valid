@@ -81,4 +81,4 @@ func (fv *Float64Value) OneOf(values []float64) *Float64Value {
 	return fv
 }
 
-var _ flag.Getter = &Float64Value{}
+var _ Validatable = &Float64Value{}

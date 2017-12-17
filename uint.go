@@ -82,4 +82,4 @@ func (i *UintValue) OneOf(values []uint) *UintValue {
 	return i
 }
 
-var _ flag.Getter = &UintValue{}
+var _ Validatable = &UintValue{}

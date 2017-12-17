@@ -68,7 +68,7 @@ func (i *IntValue) Max(max int) *IntValue {
 	return i
 }
 
-func (i *IntValue) OneOf(values []int) *IntValue {
+func (i *IntValue) OneOf(values ...int) *IntValue {
 	i.v.add(func() error {
 		n := i.get()
 		for _, v := range values {
@@ -81,4 +81,4 @@ func (i *IntValue) OneOf(values []int) *IntValue {
 	return i
 }
 
-var _ flag.Getter = &IntValue{}
+var _ Validatable = &IntValue{}

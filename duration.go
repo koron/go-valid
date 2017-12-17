@@ -83,4 +83,4 @@ func (dv *DurationValue) OneOf(values []time.Duration) *DurationValue {
 	return dv
 }
 
-var _ flag.Getter = &DurationValue{}
+var _ Validatable = &DurationValue{}
