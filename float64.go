@@ -42,7 +42,7 @@ func (fv *Float64Value) Get() interface{} { return fv.get() }
 
 // String returns string representation for value of the flag.
 func (fv *Float64Value) String() string {
-	return strconv.FormatFloat(*fv.pv, 'g', -1, 64)
+	return strconv.FormatFloat(fv.get(), 'g', -1, 64)
 }
 
 // Validate validates value of the flag.

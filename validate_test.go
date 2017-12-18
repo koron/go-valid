@@ -31,3 +31,16 @@ func testParse(t *testing.T, fs *flag.FlagSet, act interface{}, ok bool, exp int
 	}
 	return true
 }
+
+func TestErrorHandling(t *testing.T) {
+	ok := func(exp flag.ErrorHandling) {
+		fs := flag.NewFlagSet("", exp)
+		act := errorHandling(fs)
+		if act != exp {
+			t.Errorf("errorHandling failed: expected=%d actual=%d", exp, act)
+		}
+	}
+	ok(flag.ContinueOnError)
+	ok(flag.ExitOnError)
+	ok(flag.PanicOnError)
+}

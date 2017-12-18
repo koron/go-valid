@@ -2,12 +2,14 @@ package valid
 
 import (
 	"flag"
+	"io/ioutil"
 	"testing"
 )
 
 func TestStringMustSet(t *testing.T) {
 	var opt string
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
+	fs.SetOutput(ioutil.Discard)
 	fs.Var(String(&opt, "").MustSet(), "opt", "")
 
 	testParse(t, fs, &opt, false, nil)
@@ -18,6 +20,7 @@ func TestStringMustSet(t *testing.T) {
 func TestStringMin(t *testing.T) {
 	var opt string
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
+	fs.SetOutput(ioutil.Discard)
 	fs.Var(String(&opt, "").Min(5), "opt", "")
 
 	testParse(t, fs, &opt, false, nil)
@@ -30,6 +33,7 @@ func TestStringMin(t *testing.T) {
 func TestStringMax(t *testing.T) {
 	var opt string
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
+	fs.SetOutput(ioutil.Discard)
 	fs.Var(String(&opt, "").Max(5), "opt", "")
 
 	testParse(t, fs, &opt, false, nil, "-opt", "ABCDEF")
@@ -42,6 +46,7 @@ func TestStringMax(t *testing.T) {
 func TestStringOneOf(t *testing.T) {
 	var opt string
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
+	fs.SetOutput(ioutil.Discard)
 	fs.Var(String(&opt, "").OneOf("foo", "bar", "baz"), "opt", "")
 
 	testParse(t, fs, &opt, false, nil)

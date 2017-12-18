@@ -42,7 +42,7 @@ func (dv *DurationValue) Get() interface{} { return dv.get() }
 
 // String returns string representation for value of the flag.
 func (dv *DurationValue) String() string {
-	return dv.pv.String()
+	return dv.get().String()
 }
 
 // Validate validates value of the flag.

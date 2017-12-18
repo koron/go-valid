@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"reflect"
+	"unsafe"
 )
 
 // Validatable defines an interface for flag variables.
@@ -84,14 +85,18 @@ func errorHandling(fs *flag.FlagSet) flag.ErrorHandling {
 	}
 }
 
-func failf(fs *flag.FlagSet, err error) {
+var writerType = reflect.TypeOf((*io.Writer)(nil)).Elem()
+
+func flagSetOut(fs *flag.FlagSet) io.Writer {
 	var out io.Writer = os.Stderr
 	v := reflect.ValueOf(fs).Elem().FieldByName("output")
-	if !v.IsNil() {
-		if w, ok := v.Interface().(io.Writer); ok {
-			out = w
-		}
+	if !v.IsNil() && v.Type().Implements(writerType) && v.CanAddr() {
+		out = *(*io.Writer)(unsafe.Pointer(v.UnsafeAddr()))
 	}
-	fmt.Fprintln(out, err)
+	return out
+}
+
+func failf(fs *flag.FlagSet, err error) {
+	fmt.Fprintln(flagSetOut(fs), err)
 	fs.Usage()
 }
