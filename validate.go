@@ -3,6 +3,7 @@ package valid
 import (
 	"flag"
 	"fmt"
+	"io"
 	"os"
 	"reflect"
 )
@@ -42,6 +43,7 @@ func Parse(fs *flag.FlagSet, args []string) error {
 	}
 	err = Validate(fs)
 	if err != nil {
+		failf(fs, err)
 		switch errorHandling(fs) {
 		case flag.ContinueOnError:
 			return err
@@ -80,4 +82,16 @@ func errorHandling(fs *flag.FlagSet) flag.ErrorHandling {
 	default:
 		return 0
 	}
+}
+
+func failf(fs *flag.FlagSet, err error) {
+	var out io.Writer = os.Stderr
+	v := reflect.ValueOf(fs).Elem().FieldByName("output")
+	if !v.IsNil() {
+		if w, ok := v.Interface().(io.Writer); ok {
+			out = w
+		}
+	}
+	fmt.Fprintln(out, err)
+	fs.Usage()
 }

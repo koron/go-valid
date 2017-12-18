@@ -60,5 +60,7 @@ Then you should combine those values with the "flag" package.
 ```go
 flag.Var(mv, "mode", "between 1 and 5")
 flag.Var(uv, "user", "user ID (mandatory)")
-flag.Parse()
+if err := valid.Parse(flag.CommandLine, os.Args); err != nil {
+    panic(err)
+}
 ```
