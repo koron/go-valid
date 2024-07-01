@@ -2,7 +2,7 @@ package valid
 
 import (
 	"flag"
-	"io/ioutil"
+	"io"
 	"testing"
 	"time"
 )
@@ -10,7 +10,7 @@ import (
 func TestTimeMustSet(t *testing.T) {
 	var opt time.Time
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
-	fs.SetOutput(ioutil.Discard)
+	fs.SetOutput(io.Discard)
 	fs.Var(Time(&opt, time.Time{}).MustSet(), "opt", "")
 
 	testParse(t, fs, &opt, false, nil)

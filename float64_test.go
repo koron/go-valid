@@ -2,14 +2,14 @@ package valid
 
 import (
 	"flag"
-	"io/ioutil"
+	"io"
 	"testing"
 )
 
 func TestFloat64MustSet(t *testing.T) {
 	var opt float64
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
-	fs.SetOutput(ioutil.Discard)
+	fs.SetOutput(io.Discard)
 	fs.Var(Float64(&opt, 0).MustSet(), "opt", "")
 
 	testParse(t, fs, &opt, false, nil)
@@ -20,7 +20,7 @@ func TestFloat64MustSet(t *testing.T) {
 func TestFloat64Min(t *testing.T) {
 	var opt float64
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
-	fs.SetOutput(ioutil.Discard)
+	fs.SetOutput(io.Discard)
 	fs.Var(Float64(&opt, 0).Min(10), "opt", "")
 
 	testParse(t, fs, &opt, false, nil)
@@ -32,7 +32,7 @@ func TestFloat64Min(t *testing.T) {
 func TestFloat64Max(t *testing.T) {
 	var opt float64
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
-	fs.SetOutput(ioutil.Discard)
+	fs.SetOutput(io.Discard)
 	fs.Var(Float64(&opt, 0).Max(10), "opt", "")
 
 	testParse(t, fs, &opt, false, nil, "-opt", "11")
@@ -44,7 +44,7 @@ func TestFloat64Max(t *testing.T) {
 func TestFloat64OneOf(t *testing.T) {
 	var opt float64
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
-	fs.SetOutput(ioutil.Discard)
+	fs.SetOutput(io.Discard)
 	fs.Var(Float64(&opt, 0).OneOf(100, 200, 300), "opt", "")
 
 	testParse(t, fs, &opt, false, nil)

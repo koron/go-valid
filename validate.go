@@ -1,3 +1,6 @@
+/*
+Package valid provides constraints validatable values for "flag" package.
+*/
 package valid
 
 import (
