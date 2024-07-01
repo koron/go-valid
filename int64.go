@@ -86,7 +86,7 @@ func (i *Int64Value) OneOf(values ...int64) *Int64Value {
 				return nil
 			}
 		}
-		return fmt.Errorf("not one of %s", values)
+		return fmt.Errorf("not one of %+v", values)
 	})
 	return i
 }
