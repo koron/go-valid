@@ -2,7 +2,7 @@ package valid
 
 import (
 	"flag"
-	"io/ioutil"
+	"io"
 	"testing"
 	"time"
 )
@@ -10,7 +10,7 @@ import (
 func TestDurationMustSet(t *testing.T) {
 	var opt time.Duration
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
-	fs.SetOutput(ioutil.Discard)
+	fs.SetOutput(io.Discard)
 	fs.Var(Duration(&opt, 0).MustSet(), "opt", "")
 
 	testParse(t, fs, &opt, false, nil)
@@ -21,7 +21,7 @@ func TestDurationMustSet(t *testing.T) {
 func TestDurationMin(t *testing.T) {
 	var opt time.Duration
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
-	fs.SetOutput(ioutil.Discard)
+	fs.SetOutput(io.Discard)
 	fs.Var(Duration(&opt, 0).Min(10*time.Second), "opt", "")
 
 	testParse(t, fs, &opt, false, nil)
@@ -33,7 +33,7 @@ func TestDurationMin(t *testing.T) {
 func TestDurationMax(t *testing.T) {
 	var opt time.Duration
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
-	fs.SetOutput(ioutil.Discard)
+	fs.SetOutput(io.Discard)
 	fs.Var(Duration(&opt, 0).Max(10*time.Second), "opt", "")
 
 	testParse(t, fs, &opt, false, nil, "-opt", "11s")
@@ -45,7 +45,7 @@ func TestDurationMax(t *testing.T) {
 func TestDurationOneOf(t *testing.T) {
 	var opt time.Duration
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
-	fs.SetOutput(ioutil.Discard)
+	fs.SetOutput(io.Discard)
 	fs.Var(Duration(&opt, 0).OneOf(100*time.Second, 200*time.Second, 300*time.Second), "opt", "")
 
 	testParse(t, fs, &opt, false, nil)

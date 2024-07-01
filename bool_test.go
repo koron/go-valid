@@ -2,14 +2,14 @@ package valid
 
 import (
 	"flag"
-	"io/ioutil"
+	"io"
 	"testing"
 )
 
 func TestBoolMustSet(t *testing.T) {
 	var opt bool
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
-	fs.SetOutput(ioutil.Discard)
+	fs.SetOutput(io.Discard)
 	fs.Var(Bool(&opt, false).MustSet(), "opt", "")
 
 	testParse(t, fs, &opt, false, nil)

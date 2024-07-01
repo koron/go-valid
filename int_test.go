@@ -2,14 +2,14 @@ package valid
 
 import (
 	"flag"
-	"io/ioutil"
+	"io"
 	"testing"
 )
 
 func TestIntMustSet(t *testing.T) {
 	var opt int
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
-	fs.SetOutput(ioutil.Discard)
+	fs.SetOutput(io.Discard)
 	fs.Var(Int(&opt, 0).MustSet(), "opt", "")
 
 	testParse(t, fs, &opt, false, nil)
@@ -20,7 +20,7 @@ func TestIntMustSet(t *testing.T) {
 func TestIntMin(t *testing.T) {
 	var opt int
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
-	fs.SetOutput(ioutil.Discard)
+	fs.SetOutput(io.Discard)
 	fs.Var(Int(&opt, 0).Min(10), "opt", "")
 
 	testParse(t, fs, &opt, false, nil)
@@ -32,7 +32,7 @@ func TestIntMin(t *testing.T) {
 func TestIntMax(t *testing.T) {
 	var opt int
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
-	fs.SetOutput(ioutil.Discard)
+	fs.SetOutput(io.Discard)
 	fs.Var(Int(&opt, 0).Max(10), "opt", "")
 
 	testParse(t, fs, &opt, false, nil, "-opt", "11")
@@ -44,7 +44,7 @@ func TestIntMax(t *testing.T) {
 func TestIntOneOf(t *testing.T) {
 	var opt int
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
-	fs.SetOutput(ioutil.Discard)
+	fs.SetOutput(io.Discard)
 	fs.Var(Int(&opt, 0).OneOf(100, 200, 300), "opt", "")
 
 	testParse(t, fs, &opt, false, nil)
