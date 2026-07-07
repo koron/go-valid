@@ -2,7 +2,6 @@
 
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/koron/go-valid)](https://pkg.go.dev/github.com/koron/go-valid)
 [![Actions/Go](https://github.com/koron/go-valid/workflows/Go/badge.svg)](https://github.com/koron/go-valid/actions?query=workflow%3AGo)
-[![Go Report Card](https://goreportcard.com/badge/github.com/koron/go-valid)](https://goreportcard.com/report/github.com/koron/go-valid)
 
 Package "valid" provides constraints validatable values for "flag" package.
 
